@@ -7,7 +7,7 @@ get_commit_message() {
     # Checks for a valid commit message
     while true; do
         echo "Enter your commit message here."
-        read commit_message
+        read -e commit_message
         if [ -n "$commit_message" ]; then
             break
         else 
@@ -67,7 +67,7 @@ if [ "$committing" == "1" ]; then
 
     # Now commit the code using the commit message found using get_commit_message
 
-    echo "Commiting the code with commit message $commit_message."
+    echo "Committing the code with commit message $commit_message."
     git commit -m "$commit_message"
 
     # Confirm the user wants to push.
@@ -75,7 +75,7 @@ if [ "$committing" == "1" ]; then
     echo "About to push code, Are you sure you want to do this?"
 
     echo "1: Sure, go ahead"
-    echo "2: Wait, no don't I need to change something."
+    echo "2: Wait, no don't! I need to change something."
     
     read go_push
     
@@ -83,7 +83,7 @@ if [ "$committing" == "1" ]; then
 
         #pushes code, will probably add branch support
         push_code
-        echo "You are all done commiting! Have a nice day."
+        echo "You are all done committing! Have a nice day."
 
     elif [ "$go_push" == "2" ]; then
 

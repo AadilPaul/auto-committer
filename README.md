@@ -4,6 +4,6 @@
 - An interactive model that lets you know what it's doing.
 - Run with this code:
 ```bash
-./script.sh # Wow! So easy and simple!
+bash script.sh # Wow! So easy and simple!
 ```
 (Exact command will vary based on directory relative to project).
