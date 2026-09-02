@@ -6,3 +6,6 @@
 - Fixed bug where arrow keys messed up input.
 - Spelling Fixes. 
 - Fixed README.md
+## Commit message, Commit Date
+- Added user_guide.txt, which does pretty much what you think it does.
+- Made it so that, when adding files, the user has the option to iterate through each file. 

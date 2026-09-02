@@ -1,8 +1,41 @@
 #!/bin/bash
 
-# A script to automatically push code.
+# A script to automatically push code. Made by AadilPaul
 # We define our functions here:
 
+add_each() {
+    # Iterates through each file to be added. Will be called in the "$is_commited" == "1"
+    files=()
+    while IFS= read -r file; do 
+        files+=("$file")
+    done < <(git status --porcelain | awk '{print $NF}')
+    for file in "${files[@]}"; do
+        while true; do 
+            echo "Would you like to add $file to be committed?"
+            echo "1: Yes, please add this."
+            echo "2: No, don't."
+            echo "3: You can add all the rest."
+            echo "4: I changed my mind, I don't want to commit."
+            read wants_to_add 
+
+            if [ "$wants_to_add" == "1" ]; then
+                echo "Adding $file"
+                git add "$file"
+                break
+            elif [ "$wants_to_add" == "2" ]; then
+                echo "Alright, moving on."
+                break
+            elif [ "$wants_to_add" == "3" ]; then
+                echo "Okay, adding them all."
+                git add *
+                return 
+            elif [ "$wants_to_add" == "4" ]; then
+                echo "Aborting code."
+                exit 1
+            fi
+        done
+    done
+}
 get_commit_message() {
     # Checks for a valid commit message
     while true; do
@@ -59,10 +92,21 @@ read committing
 
 if [ "$committing" == "1" ]; then
 
-    # Adds changes all changes, maybe run through each change and ask if you want to add.
-    # Although that will quickly get annoying, so add an option too.
-    echo "Adding all changes"
-    git add *
+    # Asks user if they would like through each change
+    echo "Would you like to iterate through all changes to add them? (1)"
+    echo "Or would you like to just add them all using 'git add *' (2)"
+    read to_iterate
+    if [ "$to_iterate" == "1" ]; then
+        
+        echo "Okay, iterating through each change"
+        add_each
+
+    else 
+
+        echo "Okay, adding everything."
+        git add *
+
+    fi
     get_commit_message
 
     # Now commit the code using the commit message found using get_commit_message

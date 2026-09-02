@@ -1,0 +1,21 @@
+Welcome to the autocommiter!
+This autocommiter can be a very useful tool, however...
+There are a few things you need to know.
+    1. You must have git installed (This one's kinda obvious...).
+    2. If you have another type of terminal, you cannot run this program on it. Use git bash.
+    3. This is a very basic auto committer. It does not have a lot of features (for now).
+    4. This application cannot handle branches and a lot of other features (again, for now).
+    5. It only handles: git add *, git commit -m "", and git push. Please report any bugs you see.
+Now that those are out of the way, here's the more fun stuff:
+
+HOW TO RUN THE CODE:
+    To run the code, just type in "bash script.sh" in git bash. Then, you will be taken through the commit process.
+
+WHAT EXACTLY DOES THIS CODE DO:
+    This code runs through a series of commands to push your code to any repo. 
+    The entire process is completely interactive.
+
+SOME NOTES ABOUT THE PROCESS:
+    It is best to have the file to run (script.sh) in the home directory of your repo.
+    Other places will work, but this is to ensure that you aren't messing with directories for ten minutes.
+    If the auto committer is in the root directory, when it asks for directory, type in "./".
