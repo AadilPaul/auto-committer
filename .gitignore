@@ -1,0 +1,3 @@
+# A gitignore:
+*.txt
+!user_guide.txt
