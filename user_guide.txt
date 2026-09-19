@@ -1,10 +1,10 @@
 Welcome to the autocommiter!
 This autocommiter can be a very useful tool, however...
 There are a few things you need to know.
-    1. You must have git installed (This one's kinda obvious...).
+    1. You must have git installed (This one's kinda obvious...), with bash version 4 or higher (test with 'bash --version')
     2. If you have another type of terminal, you cannot run this program on it. Use git bash.
     3. This is a very basic auto committer. It does not have a lot of features (for now).
-    4. This application cannot handle branches and a lot of other features (again, for now).
+    4. This application cannot handle branches and a lot of other things (again, for now).
     5. It only handles: git add ., git commit -m "", and git push. Please report any bugs you see.
 Now that those are out of the way, here's the more fun stuff: 
 
@@ -19,6 +19,6 @@ WHAT EXACTLY DOES THIS CODE DO:
     Use this model with caution.
 
 SOME NOTES ABOUT THE PROCESS:
-    It is best to have the scripts folder in the home directory of your repo.
+    It is best to have the scripts folder in the home directory of your repo. You do not need anything outside of scripts/.
     Other places will work, but this is to ensure that you aren't messing with directories for ten minutes (but maybe you're better than me).
-    If the auto committer is in the root directory, when it asks for directory, type in "../".
+    If the scripts folder is in the root directory of your repo, when it asks for directory, type in "./".
