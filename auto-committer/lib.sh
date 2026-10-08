@@ -11,6 +11,7 @@ disp_menu() {
     echo "$settings_key: View or edit settings."
     echo "$exit_key: Exit the program."
     echo "$help_us_key: Interested in helping with development?"
+    echo "$guide_key: See a guide for this page."
 }
 # add_each iterates through each file to be added. 
 add_each() {
@@ -39,7 +40,7 @@ add_each() {
                 break
             elif [ "$wants_to_add" == "3" ]; then
                 echo "Okay, adding them all."
-                git add . 
+                $add_command
                 return 
             elif [ "$wants_to_add" == "4" ]; then
                 echo "Aborting code."
@@ -94,7 +95,9 @@ to_lower() {
 
 # Function that runs when launched
 launch_program() {
-    disp_menu
+    if [ "$show_menu_on_start" == "true" ]; then
+        disp_menu
+    fi
     while true; do
         read user_option
         if [ "$user_option" == "$run_key" ]; then
@@ -105,6 +108,7 @@ launch_program() {
             elif [ "$faster" == "2" ]; then
                 bash "$(dirname "$0")"/script.sh
             fi
+            sleep 3
             disp_menu
         elif [ "$user_option" == "$settings_key" ]; then
             # Runs the file that handles settings logic.
@@ -118,6 +122,13 @@ launch_program() {
             echo "You can make a fork & pull request, or request access."
             sleep 3
             disp_menu
+        elif [ "$user_option" == "$guide_key" ]; then
+            echo "This is an auto-committer that commits your code for you!"
+            echo "You can edit settings in the settings menu, commit to a repo, ask to help with development, or..."
+            echo "If you don't like us, you can exit the code. If you really feel like it :_(."
+            echo "Follow the given prompts to navigate the auto-committer."
+            sleep 3
+            disp_menu
         fi
     done
 }
@@ -125,31 +136,34 @@ commit() {
     echo "Please enter the exact path to the folder that you want to push to from here."
     echo "e.g. ../project1/src"
     echo "Any mistakes will cause errors, so be careful."
+    sleep 2
     echo "Type in your directory here:"
     read directory
 
     cd "$directory" || { echo "Invalid directory."; exit 1; }
 
+    sleep 3
     # Confirm the user wants to commit here.
     echo "Ready to commit?"
-
     echo "1: Yes, go ahead."
     echo "2: No, I'm not done yet."
     # Does the user want to proceed? This variable shows.
     read committing
 
     if [ "$committing" == "1" ]; then
-
+        sleep 2
         # Asks user if they would like through each change
         echo "Would you like to iterate through all changes to add them? (1)"
-        echo "Or would you like to just add them all using 'git add .' (2)"
+        echo "Or would you like to just add them all using '$add_command' (2)"
         read to_iterate
         if [ "$to_iterate" == "1" ]; then
             echo "Okay, iterating through each change"
             add_each
         else 
             echo "Okay, adding everything."
-            git add .
+            if $add_command; then
+                echo "Added successfully; Testing only" # FIXME: delete this line once testing is over
+            fi
         fi
         get_commit_message
 
@@ -159,22 +173,25 @@ commit() {
         git commit -m "$commit_message"
         echo "-------------------------"
         # Confirm the user wants to push.
-
-        echo "About to push code, Are you sure you want to do this?"
-
-        echo "1: Sure, go ahead"
-        echo "2: Wait, no don't! I need to change something."
-        
-        read go_push
-        
-        if [ "$go_push" == "1" ]; then
-            # pushes code
+        if [ "$auto_push" == "true" ]; then
             push_code
-            # echo "You are all done committing! Have a nice day."
-        elif [ "$go_push" == "2" ]; then
-            # Runs only if the user is not ready to push
-            echo "Aborting code. Please push your code when ready."
-            exit 1
+        else 
+            echo "About to push code, Are you sure you want to do this?"
+
+            echo "1: Sure, go ahead"
+            echo "2: Wait, no don't! I need to change something."
+            
+            read go_push
+            
+            if [ "$go_push" == "1" ]; then
+                # pushes code
+                push_code
+                # echo "You are all done committing! Have a nice day."
+            elif [ "$go_push" == "2" ]; then
+                # Runs only if the user is not ready to push
+                echo "Aborting code. Please push your code when ready."
+                exit 1
+            fi
         fi
     fi
 }

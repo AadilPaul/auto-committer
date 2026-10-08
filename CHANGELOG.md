@@ -16,3 +16,9 @@
 - Added settings.sh.
 - Changed the starting point to be scritps/launch.sh.
 - Added several functions in lib.sh to optimize workflow.
+## v1.2.1, Guides and Settings, 10/8/2026.
+- Renamed scripts folder to auto-committer for better project integration. 
+- Added a username check.
+- The settings menu now has a nice little greeting.
+- Fixed the username change issue. 
+- Added a guide key for user help.
