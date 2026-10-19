@@ -9,7 +9,7 @@ There are a few things you need to know.
 Now that those are out of the way, here's the more fun stuff: 
 
 HOW TO RUN THE CODE:
-    To run the code, just type in "bash scripts/script.sh", or "bash scripts/faster_script.sh" in git bash. Then, you will be taken through the commit process.
+    To run the code, just type in "bash auto-committer/launch.sh" in git bash. Then, you will be taken through the commit process.
 
 WHAT EXACTLY DOES THIS CODE DO:
     This code runs through a series of commands to push your code to any repo. 

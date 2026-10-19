@@ -28,23 +28,32 @@ add_each() {
             echo "2: No, don't."
             echo "3: You can add all the rest."
             echo "4: I changed my mind, I don't want to commit."
+            echo "5: This is all I want to add."
             
             read wants_to_add 
+            sleep 2
 
             if [ "$wants_to_add" == "1" ]; then
                 echo "Adding $file"
                 git add "$file"
+                sleep 1
                 break
             elif [ "$wants_to_add" == "2" ]; then
                 echo "Alright, moving on."
+                sleep 1
                 break
             elif [ "$wants_to_add" == "3" ]; then
                 echo "Okay, adding them all."
                 $add_command
+                sleep 1
                 return 
             elif [ "$wants_to_add" == "4" ]; then
                 echo "Aborting code."
                 exit 1
+            elif [ "$wants_to_add" == "5" ]; then
+                echo "Okay, moving on."
+                sleep 1
+                return
             fi
         done
     done
@@ -63,7 +72,6 @@ get_commit_message() {
             echo "Please give me a commit message."
         fi
     done
-    # return $commit_message
 }
 # Pushes the code in script.sh
 push_code() {
@@ -83,6 +91,9 @@ push_code() {
             echo "$output"
             # And then abort code using exit 1
             exit 1
+        else 
+            echo "Push succeeded!"
+            echo "You are all done committing! Have a nice day."
         fi
     fi
 
@@ -101,15 +112,19 @@ launch_program() {
     while true; do
         read user_option
         if [ "$user_option" == "$run_key" ]; then
-            echo "Would you like to use the faster model? 1: Yes, 2: No"
-            read faster
-            if [ "$faster" == "1" ]; then
+            if [ "$use_faster_script" == "true" ]; then
                 bash "$(dirname "$0")"/faster_script.sh
-            elif [ "$faster" == "2" ]; then
-                bash "$(dirname "$0")"/script.sh
+            else
+                echo "Would you like to use the faster model? 1: Yes, 2: No"
+                read faster
+                if [ "$faster" == "1" ]; then
+                    bash "$(dirname "$0")"/faster_script.sh
+                elif [ "$faster" == "2" ]; then
+                    bash "$(dirname "$0")"/script.sh
+                fi
+                sleep 3
+                disp_menu
             fi
-            sleep 3
-            disp_menu
         elif [ "$user_option" == "$settings_key" ]; then
             # Runs the file that handles settings logic.
             settings_handler
@@ -125,7 +140,7 @@ launch_program() {
         elif [ "$user_option" == "$guide_key" ]; then
             echo "This is an auto-committer that commits your code for you!"
             echo "You can edit settings in the settings menu, commit to a repo, ask to help with development, or..."
-            echo "If you don't like us, you can exit the code. If you really feel like it :_(."
+            echo "If you don't like us, you can exit the code. If you really feel like it (; _ ;)."
             echo "Follow the given prompts to navigate the auto-committer."
             sleep 3
             disp_menu
@@ -159,20 +174,27 @@ commit() {
         if [ "$to_iterate" == "1" ]; then
             echo "Okay, iterating through each change"
             add_each
-        else 
+        elif [ "$to_iterate" == "2" ]; then
             echo "Okay, adding everything."
             if $add_command; then
-                echo "Added successfully; Testing only" # FIXME: delete this line once testing is over
+                echo "Added successfully"
+            fi
+        elif [ "$add_all_auto" == "true" ]; then
+            echo "Okay, adding everything."
+            if $add_command; then
+                echo "Added successfully"
             fi
         fi
+        sleep 2
         get_commit_message
 
         # Now commit the code using the commit message found using get_commit_message
-
+        sleep 2
         echo "Committing the code with commit message $commit_message."
         git commit -m "$commit_message"
         echo "-------------------------"
         # Confirm the user wants to push.
+        sleep 2
         if [ "$auto_push" == "true" ]; then
             push_code
         else 
@@ -186,13 +208,15 @@ commit() {
             if [ "$go_push" == "1" ]; then
                 # pushes code
                 push_code
-                # echo "You are all done committing! Have a nice day."
             elif [ "$go_push" == "2" ]; then
                 # Runs only if the user is not ready to push
                 echo "Aborting code. Please push your code when ready."
                 exit 1
             fi
         fi
+    else
+        echo "Aborting code. Please come back when you are ready."
+        exit 1
     fi
 }
 # quick_commit is called in faster_script.sh

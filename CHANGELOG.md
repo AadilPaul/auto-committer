@@ -22,3 +22,6 @@
 - The settings menu now has a nice little greeting.
 - Fixed the username change issue. 
 - Added a guide key for user help.
+## 1.2.2, Commit Process Changes, 10/19/2026.
+- You can now finish adding files early if you have iterated through all the files you want to add.
+- Implemented some settings. 

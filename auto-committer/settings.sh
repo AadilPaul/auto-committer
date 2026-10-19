@@ -207,6 +207,7 @@ run_script_command=$(menu_get "run_script_command")
 default_dir=$(menu_get "default_dir")
 fail_on_conflict=$(menu_get "fail_on_conflict")
 guide_key=$(menu_get "guide_key")
+use_faster_script=$(menu_get "use_faster_script")
 
 # Export variables
 export run_key settings_key exit_key help_us_key
